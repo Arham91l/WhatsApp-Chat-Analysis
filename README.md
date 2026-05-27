@@ -81,4 +81,4 @@ The app opens automatically at `http://localhost:8501`.
 - The parser handles both narrow no-break space (`\u202f`) and regular space before AM/PM.
 
 ## App link
-https://whatsapp-chat-analysis-zk2ekuwkuffeimtmiijysq.streamlit.app/
+(https://whatsapp-chat-analysis-zk2ekuwkuffeimtmiijysq.streamlit.app/)
