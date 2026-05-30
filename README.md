@@ -47,3 +47,6 @@ Open `http://localhost:8501` in your browser.
 
 - **Without Media** → upload the `.txt` file
 - **With Media** → upload the `.zip` file (enables Image Gallery + media type analysis)
+
+## Link
+https://whatsapp-chat-analysis-mkj7fps677llcpm3ktjpxy.streamlit.app/
