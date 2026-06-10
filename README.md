@@ -4,7 +4,6 @@
 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue?style=for-the-badge&logo=python)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B?style=for-the-badge&logo=streamlit)
-![NLP](https://img.shields.io/badge/NLP-Sentiment%20%7C%20Topics-blueviolet?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Deployed-success?style=for-the-badge)
 
 **A comprehensive WhatsApp chat analytics dashboard that transforms exported `.txt` chat files into rich visual insights — message statistics, sentiment trends, topic modeling, activity heatmaps, and more.**
@@ -39,22 +38,9 @@ Designed to work with **both English and Hinglish** (Hindi-English code-switchin
 - Monthly activity calendar view
 - Participant-level activity comparison
 
-### 😊 Sentiment Analysis
-- Message-level sentiment scoring (Positive / Neutral / Negative)
-- Sentiment trend over time per participant
-- Emoji usage breakdown and sentiment correlation
-- Most positive and most negative conversation days
-
-### 🔑 Keyword & Phrase Analysis
-- TF-IDF based keyword extraction per participant
-- Word cloud visualization (masked to WhatsApp bubble shape)
-- Top bigrams and trigrams
-- Custom stopword list (includes common WhatsApp filler words)
-
 ### 📝 Topic Modeling
 - LDA-based topic discovery across the full conversation
 - Top keywords per latent topic
-- Message-to-topic assignment distribution
 
 ### 😂 Emoji Analysis
 - Top emojis per participant
@@ -122,7 +108,7 @@ WhatsApp .txt Export
     ▼                       ▼
 Feature Engineering     NLP Analysis
 (temporal features,    (sentiment, keywords,
- response times,        topics, emoji)
+ response times,        emojis)
  activity stats)
          │                  │
          └────────┬─────────┘
@@ -149,57 +135,6 @@ PATTERNS = [
 ```
 
 System messages (group joins, calls missed, etc.) are automatically filtered out.
-
-### Sentiment Analysis
-
-**Model:** VADER (Valence Aware Dictionary and sEntiment Reasoner)
-
-VADER is chosen over transformer-based models because:
-1. It handles **informal text, emoji, and slang** natively (designed for social media)
-2. No GPU requirement — instant inference even on 100K+ messages
-3. Emoji and capitalization contribute to the compound score
-
-```python
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-analyzer = SentimentIntensityAnalyzer()
-scores = analyzer.polarity_scores(message_text)
-# Returns: {'neg': 0.0, 'neu': 0.6, 'pos': 0.4, 'compound': 0.52}
-```
-
-Sentiment buckets:
-- **Positive**: compound ≥ 0.05
-- **Neutral**: -0.05 < compound < 0.05
-- **Negative**: compound ≤ -0.05
-
-### Keyword Extraction
-
-```python
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-# Per-participant TF-IDF
-vectorizer = TfidfVectorizer(
-    max_features=500,
-    ngram_range=(1, 2),
-    stop_words=custom_stopwords  # Includes common WhatsApp fillers
-)
-```
-
-Custom stopword list extends standard English stopwords with: `"okay", "ok", "lol", "haha", "bro", "yaar", "haan", "nahi"` etc.
-
-### Topic Modeling (LDA)
-
-```python
-from sklearn.decomposition import LatentDirichletAllocation
-
-lda = LatentDirichletAllocation(
-    n_components=5,     # Number of topics
-    max_iter=20,
-    random_state=42
-)
-lda.fit(tfidf_matrix)
-```
-
-Topics are labeled by their top 5 keywords. Users can adjust the number of topics via a slider.
 
 ### Activity Heatmap
 
@@ -247,7 +182,6 @@ The following insights are from the included **synthetic demo chat** (2 particip
 ```
 ![Dashboard Overview](docs/screenshots/dashboard_main.png)
 ![Activity Heatmap](docs/screenshots/heatmap.png)
-![Sentiment Timeline](docs/screenshots/sentiment_trend.png)
 ![Word Cloud](docs/screenshots/wordcloud.png)
 ![Emoji Analysis](docs/screenshots/emoji_analysis.png)
 ```
@@ -284,29 +218,17 @@ numpy>=1.24.0
 matplotlib>=3.7.0
 plotly>=5.15.0
 wordcloud>=1.9.2
-vaderSentiment>=3.3.2
-scikit-learn>=1.3.0
 emoji>=2.8.0
-fpdf2>=2.7.0
 nltk>=3.8.1
 Pillow>=10.0.0
 ```
-
-### 3. Download NLTK Data
-
-```python
-import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
-```
-
-### 4. Run the App
+### 3. Run the App
 
 ```bash
 streamlit run app.py
 ```
 
-### 5. Using the Dashboard
+### 4. Using the Dashboard
 
 1. **Export your chat** from WhatsApp (without media, `.txt` format)
 2. **Upload** the `.txt` file via the file uploader on the home page
@@ -321,7 +243,7 @@ streamlit run app.py
 
 ## 🚀 Live Demo
 
-> 🔗 **[Streamlit Cloud Deployment — Click Here](https://YOUR_APP_URL.streamlit.app)**
+> 🔗 **[Streamlit Cloud Deployment — Click Here](https://whatsapp-chat-analysis-mkj7fps677llcpm3ktjpxy.streamlit.app/)**
 
 The live demo includes a **pre-loaded synthetic chat** so you can explore all features without uploading your own data. You can also upload any real WhatsApp export to analyze.
 
@@ -336,34 +258,15 @@ whatsapp-chat-analyzer/
 ├── requirements.txt
 ├── README.md
 │
-├── src/
-│   ├── parser.py                   # Regex-based WhatsApp .txt parser
-│   ├── feature_extractor.py        # Temporal features, response time calc
-│   ├── sentiment_analyzer.py       # VADER sentiment scoring
-│   ├── keyword_extractor.py        # TF-IDF keyword & bigram extraction
-│   ├── topic_modeler.py            # LDA topic modeling
-│   ├── emoji_analyzer.py           # Emoji frequency and sentiment mapping
-│   ├── visualizer.py               # Plotly & WordCloud chart builders
-│   └── pdf_exporter.py             # PDF report generation
 │
 ├── data/
 │   └── sample_chat.txt             # Synthetic demo chat (anonymized)
 │
-├── assets/
-│   ├── stopwords_custom.txt        # Extended stopword list (with Hinglish)
-│   └── emoji_sentiment_map.json    # Emoji → sentiment mapping
 │
-├── notebooks/
-│   ├── 01_Parser_Development.ipynb
-│   ├── 02_EDA_ChatData.ipynb
-│   ├── 03_Sentiment_Analysis.ipynb
-│   └── 04_Topic_Modeling.ipynb
 │
 ├── docs/
-│   └── screenshots/
-│
-└── .streamlit/
-    └── config.toml
+│   └── images/
+
 ```
 
 ---
@@ -407,17 +310,8 @@ Do not upload chats containing sensitive personal, financial, or medical informa
 ## 👤 Author
 
 **Arham**
-- 📧 [your.email@example.com]
-- 💼 [LinkedIn Profile]
-- 🐙 [GitHub Profile]
 
----
 
-## 📜 License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
----
 
 <div align="center">
 ⭐ Star this repo if you found it useful!
