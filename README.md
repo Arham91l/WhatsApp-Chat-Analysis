@@ -38,10 +38,6 @@ Designed to work with **both English and Hinglish** (Hindi-English code-switchin
 - Monthly activity calendar view
 - Participant-level activity comparison
 
-### 📝 Topic Modeling
-- LDA-based topic discovery across the full conversation
-- Top keywords per latent topic
-
 ### 😂 Emoji Analysis
 - Top emojis per participant
 - Emoji frequency timeline
@@ -159,16 +155,6 @@ The following insights are from the included **synthetic demo chat** (2 particip
 | Total Messages | 1,847 | 1,353 |
 | Total Words | 14,203 | 9,871 |
 | Media Shared | 312 | 189 |
-| Avg. Message Length | 7.7 words | 7.3 words |
-| Avg. Response Time | 4.2 min | 6.8 min |
-
-### Sentiment Distribution
-
-| Sentiment | Participant A | Participant B |
-|-----------|--------------|--------------|
-| Positive | 48% | 52% |
-| Neutral | 38% | 34% |
-| Negative | 14% | 14% |
 
 ### Top Activity Window
 - **Peak Hour:** 9 PM – 10 PM
@@ -177,16 +163,12 @@ The following insights are from the included **synthetic demo chat** (2 particip
 
 ### Screenshots
 
-> 📸 _Add screenshots of your Streamlit dashboard here_
-
-```
 ![Dashboard Overview](docs/screenshots/dashboard_main.png)
 ![Activity Heatmap](docs/screenshots/heatmap.png)
 ![Word Cloud](docs/screenshots/wordcloud.png)
 ![Emoji Analysis](docs/screenshots/emoji_analysis.png)
 ```
 
----
 
 ## ⚙️ Installation & Usage
 
@@ -264,8 +246,8 @@ whatsapp-chat-analyzer/
 │
 │
 │
-├── docs/
-│   └── images/
+├── images/
+
 
 ```
 
