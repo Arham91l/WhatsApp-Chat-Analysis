@@ -163,10 +163,15 @@ The following insights are from the included **synthetic demo chat** (2 particip
 
 ### Screenshots
 
-![Dashboard Overview](docs/screenshots/dashboard_main.png)
-![Activity Heatmap](docs/screenshots/heatmap.png)
-![Word Cloud](docs/screenshots/wordcloud.png)
-![Emoji Analysis](docs/screenshots/emoji_analysis.png)
+![Dashboard Overview](images/w1.png)
+![Length](images/w2.png)
+![Activity Heatmap](images/w3.png)
+![Word Cloud](images/wordcloud.png)
+![Emoji Analysis](images/w4.png)
+![User](images/w5.png)
+![Length](images/w6.png)
+![Time](images/w7.png)
+
 ```
 
 
